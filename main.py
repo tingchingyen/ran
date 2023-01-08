@@ -1,21 +1,26 @@
-from pptx import Presentation
-from glob import glob
-import streamlit as st
-st.write(glob('*'))
-
-
+from pptx_interface import Presentation
 
 # Open an existing PowerPoint presentation
 prs = Presentation("template.pptx")
 
-# Get the first slide of the presentation
-slide = prs.slides[0]
-
-# Add a text box to the slide
-textbox = slide.shapes.add_textbox(left=50, top=50, width=200, height=100)
+# Find the first text box on the first slide
+textbox = prs.slides[0].textboxes[0]
 
 # Set the text of the text box
-textbox.text_frame.text = "Hello, world!"
+textbox.text = "test"
 
+# Set the font size of the text box
+textbox.font.size = 12
+textbox.text = "test2"
 
-prs.save("temp.pptx")
+# Set the font size of the text box
+textbox.font.size = 8
+# Save the modified PowerPoint presentation
+prs.save("tmp.pptx")
+with open("tmp.pptx", "rb") as file:
+    btn = st.download_button(
+            label="Download PPT",
+            data=file,
+            file_name="test.pptx",
+            mime="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+          )
